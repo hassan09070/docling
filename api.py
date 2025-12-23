@@ -26,7 +26,7 @@ async def convert_pdf(
             page_range=(page_start, page_end)
         )
 
-        markdown_output = result.document.export_to_PLAINTEXT()
+        markdown_output = result.document.export_to_text()
 
         return {
             "filename": file.filename,
