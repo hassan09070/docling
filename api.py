@@ -42,13 +42,12 @@ async def convert_pdf(
         )
 
         markdown_output = result.document.export_to_markdown()
-        raw_output = result.document.export_to_json() 
+        
 
         return {
             "filename": file.filename,
             "pages": [page_start, page_end],
-            "markdown": markdown_output,
-            "raw_output": raw_output
+            "markdown": markdown_output
         }
 
     finally:
