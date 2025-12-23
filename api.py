@@ -30,22 +30,25 @@ async def convert_pdf(
         )
         
     })
-        pipeline_options = PipelineOptions(
-            table_mode=TableFormerMode.PRESERVE_STRUCTURE  # or other modes like "PARSER_MODE"
-        )
+        # pipeline_options = PipelineOptions(
+        #     table_mode=TableFormerMode.PRESERVE_STRUCTURE
+        #         # or other modes like "PARSER_MODE"
+        # )
 
         result = converter.convert(
             tmp_path,
             page_range=(page_start, page_end),
-            pipeline_options=pipeline_options
+            # pipeline_options=pipeline_options
         )
 
         markdown_output = result.document.export_to_markdown()
+        raw_output = result.document.export_to_json() 
 
         return {
             "filename": file.filename,
             "pages": [page_start, page_end],
-            "markdown": markdown_output
+            "markdown": markdown_output,
+            "raw_output": raw_output
         }
 
     finally:
