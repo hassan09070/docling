@@ -1,5 +1,9 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from docling.document_converter import DocumentConverter
+from docling.document_converter import DocumentConverter,PdfFormatOption
+from docling.datamodel.base_models import InputFormat
+from docling.pipeline.vlm_pipeline import VlmPipeline
+from docling.datamodel.pipeline_options import TableFormerMode,PipelineOptions
+from docling.datamodel.pipeline_options_vlm_model import ApiVlmOptions
 import tempfile
 import os
 
@@ -20,10 +24,20 @@ async def convert_pdf(
         tmp_path = tmp.name
 
     try:
-        converter = DocumentConverter()
+    #     pipeline_options = PipelineOptions()
+        converter = DocumentConverter(format_options={
+        InputFormat.PDF: PdfFormatOption(
+        )
+        
+    })
+        pipeline_options = PipelineOptions(
+            table_mode=TableFormerMode.PRESERVE_STRUCTURE  # or other modes like "PARSER_MODE"
+        )
+
         result = converter.convert(
             tmp_path,
-            page_range=(page_start, page_end)
+            page_range=(page_start, page_end),
+            pipeline_options=pipeline_options
         )
 
         markdown_output = result.document.export_to_markdown()
