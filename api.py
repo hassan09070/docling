@@ -26,7 +26,7 @@ async def convert_pdf(
             page_range=(page_start, page_end)
         )
 
-        markdown_output = result.document.export_to_doctags()
+        markdown_output = result.document.export_to_html()
 
         return {
             "filename": file.filename,
